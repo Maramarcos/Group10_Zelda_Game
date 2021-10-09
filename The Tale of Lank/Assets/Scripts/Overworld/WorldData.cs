@@ -138,14 +138,14 @@ public struct ChunkData
         }
     }
 
-    public TileEnum GetTile(int x, int y)
+    public TileEnum GetTile(int tileIndex)
     {
-        return tiles[x, y];
+        return tiles[tileIndex];
     }
 
-    public void SetTile(int x, int y, TileEnum tile)
+    public void SetTile(int tileIndex, TileEnum tile)
     {
-        tiles[x, y] = tile;
+        tiles[tileIndex] = tile;
     }
 
     [SerializeField]

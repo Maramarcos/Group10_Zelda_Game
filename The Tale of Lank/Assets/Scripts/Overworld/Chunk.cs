@@ -28,7 +28,7 @@ class Chunk : MonoBehaviour
                 
                 //Add spriteRender and BoxCollider to TileObject
                 //TODO: Different tiles need different collisions. Implement Later
-                tiles[i].SetupTile(tData, tiles[i].gameObject.AddComponent<SpriteRenderer>(), tiles[i].gameObject.AddComponent<BoxCollider>(), _mapID, _chunkID);
+                tiles[i].SetupTile(tData, tiles[i].gameObject.AddComponent<SpriteRenderer>(), tiles[i].gameObject.AddComponent<BoxCollider>(), _mapID, _chunkID, i);
                 tiles[i].transform.parent = this.transform;
                 i++;
             }            
@@ -39,8 +39,7 @@ class Chunk : MonoBehaviour
             {
                 for(int x = 0; x < ChunkData.tileWidth; x++)
                 {
-                    tiles[i].transform.localPosition = new Vector3(x, y);
-                    tiles[i].SetXY(x,y);
+                    tiles[i].transform.localPosition = new Vector3(x, y);                    
                     tiles[i].name="("+x+", " + y + ")";
                     i++;
                 }

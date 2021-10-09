@@ -6,8 +6,7 @@ public class Tile : MonoBehaviour
 {
     private int _chunkID;
     private int _mapID;
-    private int tileX;
-    private int tileY;
+    private int tileIndex;
 
     private TileEnum tileType;
     private SpriteRenderer spriteRenderer;
@@ -29,28 +28,28 @@ public class Tile : MonoBehaviour
     }
 
 
-    public void SetupTile(TileEnum tileType, SpriteRenderer spriteRenderer, Collider collider, int _mapID, int _chunkID)
+    public void SetupTile(TileEnum tileType, SpriteRenderer spriteRenderer, Collider collider, int _mapID, int _chunkID, int tileIndex)
     {
         this.tileType = tileType;
         this.spriteRenderer = spriteRenderer;
         this.colliderRef = collider;
         this._mapID = _mapID;
         this._chunkID = _chunkID;
+        this.tileIndex = tileIndex;
+        this.spriteRenderer.sprite = spriteRenderer.sprite = World.sprites[(int)tileType];
     }
 
     //For mapEditing.
-    private void OnMouseDown()
+    private void OnMouseEnter()
     {
-        tileType = MapEditor.selectedTileType;
-        World.worldData.GetMap(_mapID).GetChunk(_chunkID).SetTile(tileX, tileY, tileType);        
-        spriteRenderer.sprite = World.sprites[(int)tileType];
+        if(Input.GetMouseButton(0))
+        {
+            tileType = MapEditor.selectedTileType;
+            World.worldData.GetMap(_mapID).GetChunk(_chunkID).SetTile(tileIndex, tileType);
+            spriteRenderer.sprite = World.sprites[(int)tileType];
+        }
+        
     }
 
-    //Used by Chunk.cs when making tile
-    public void SetXY(int x, int y)
-    {
-        this.tileX = x;
-        this.tileY = y;
-        startInit = true;
-    }
+    
 }
