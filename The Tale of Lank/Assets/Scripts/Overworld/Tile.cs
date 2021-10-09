@@ -40,7 +40,7 @@ public class Tile : MonoBehaviour
     }
 
     //For mapEditing.
-    private void OnMouseEnter()
+    private void OnMouseOver()
     {
         if(Input.GetMouseButton(0))
         {
@@ -51,5 +51,6 @@ public class Tile : MonoBehaviour
         
     }
 
+    
     
 }
