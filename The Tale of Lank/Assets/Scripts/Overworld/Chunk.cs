@@ -26,9 +26,11 @@ class Chunk : MonoBehaviour
                 GameObject go = new GameObject();
                 tiles[i] = go.AddComponent<Tile>();
                 
-                //Add spriteRender and BoxCollider to TileObject
                 //TODO: Different tiles need different collisions. Implement Later
-                tiles[i].SetupTile(tData, tiles[i].gameObject.AddComponent<SpriteRenderer>(), tiles[i].gameObject.AddComponent<BoxCollider>(), _mapID, _chunkID, i);
+                BoxCollider mapEditorCollider = tiles[i].gameObject.AddComponent<BoxCollider>();
+                mapEditorCollider.isTrigger = true;
+                
+                tiles[i].SetupTile(tData, tiles[i].gameObject.AddComponent<SpriteRenderer>(), mapEditorCollider, _mapID, _chunkID, i);
                 tiles[i].transform.parent = this.transform;
                 i++;
             }            

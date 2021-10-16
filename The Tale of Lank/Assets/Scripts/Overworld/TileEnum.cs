@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
-//Tile Enums are equal to the tile ID. TileIDs will change overtime as the tileset is changed and new features are added
+//Tile Enums are equal to the tile ID. TileIDs may change overtime as the tileset is changed and new features are added
 public enum TileEnum
 {
     none = 0,
@@ -60,4 +61,49 @@ public static class TileEnumExtensions
         return 0;
     }
 
+    public static TileCollisionEnum GetCollisionType(this TileEnum tile)
+    {
+        //If a tile has collision return the collision. Otherwise fallback for none as default
+
+        switch (tile)
+        {
+            case TileEnum.cave_enterance_t:
+                return TileCollisionEnum.square;
+            case TileEnum.mountain_grass_e:
+                return TileCollisionEnum.square;
+            case TileEnum.mountain_grass_s:
+                return TileCollisionEnum.square;
+            case TileEnum.mountain_grass_w:
+                return TileCollisionEnum.square;
+            case TileEnum.mountain_grass_n:
+                return TileCollisionEnum.square;
+            case TileEnum.mountain_inner_corner_se:
+                return TileCollisionEnum.square;
+            case TileEnum.mountain_inner_corner_sw:
+                return TileCollisionEnum.none;
+            case TileEnum.mountain_grass_se:
+                return TileCollisionEnum.triangle270;
+            case TileEnum.mountain_grass_sw:
+                return TileCollisionEnum.triangle180;
+            case TileEnum.mountain_grass_ne:
+                return TileCollisionEnum.triangle0;
+            case TileEnum.mountain_grass_nw:
+                return TileCollisionEnum.triangle90;
+        }
+
+        return TileCollisionEnum.none;
+
+    }
+
 }
+
+public enum TileCollisionEnum
+{
+    none,
+    triangle0,
+    triangle90,
+    triangle180,
+    triangle270,
+    square
+}
+
