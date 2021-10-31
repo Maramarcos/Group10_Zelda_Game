@@ -21,7 +21,7 @@ class Chunk : MonoBehaviour
 
             int i = 0;
             //Iterate through all tiles in tile data and create appropiate gameObjects
-            foreach (TileEnum tData in World.worldData.GetMap(_mapID).GetChunk(_chunkID).GetTiles())
+            foreach (TileInformation tData in World.worldData.GetMap(_mapID).GetChunk(_chunkID).GetTiles())
             {
                 GameObject go = new GameObject();
                 tiles[i] = go.AddComponent<Tile>();

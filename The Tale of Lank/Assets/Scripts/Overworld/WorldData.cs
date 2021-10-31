@@ -125,7 +125,7 @@ public struct ChunkData
     public readonly static int tileHeight = 11;
 
     [SerializeField]
-    private Flat2DArray<TileEnum> tiles;
+    private Flat2DArray<TileInformation> tiles;
 
     [SerializeField]
     private int _chunkID;
@@ -138,12 +138,12 @@ public struct ChunkData
         }
     }
 
-    public TileEnum GetTile(int tileIndex)
+    public TileInformation GetTile(int tileIndex)
     {
         return tiles[tileIndex];
     }
 
-    public void SetTile(int tileIndex, TileEnum tile)
+    public void SetTile(int tileIndex, TileInformation tile)
     {
         tiles[tileIndex] = tile;
     }
@@ -159,13 +159,13 @@ public struct ChunkData
         }
     }
 
-    public readonly Flat2DArray<TileEnum> GetTiles()
+    public readonly Flat2DArray<TileInformation> GetTiles()
     {
         return tiles;
     }
     
     //DebugOnly Constructor
-    public ChunkData(Flat2DArray<TileEnum> tiles, int _chunkID, string chunkName)
+    public ChunkData(Flat2DArray<TileInformation> tiles, int _chunkID, string chunkName)
     {
         this._chunkID = _chunkID;
         this.tiles = tiles;
