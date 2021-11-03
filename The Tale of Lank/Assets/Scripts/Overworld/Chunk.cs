@@ -7,7 +7,7 @@ using UnityEngine;
 
 class Chunk : MonoBehaviour
 {
-    private int _mapID;
+    private string mapName;
     private int _chunkID;
     private bool startInit = false;
     private Tile[] tiles;
@@ -21,7 +21,7 @@ class Chunk : MonoBehaviour
 
             int i = 0;
             //Iterate through all tiles in tile data and create appropiate gameObjects
-            foreach (TileInformation tData in World.worldData.GetMap(_mapID).GetChunk(_chunkID).GetTiles())
+            foreach (TileInformation tData in World.worldData.GetMap(mapName).GetChunk(_chunkID).GetTiles())
             {
                 GameObject go = new GameObject();
                 tiles[i] = go.AddComponent<Tile>();
@@ -30,7 +30,7 @@ class Chunk : MonoBehaviour
                 BoxCollider mapEditorCollider = tiles[i].gameObject.AddComponent<BoxCollider>();
                 mapEditorCollider.isTrigger = true;
                 
-                tiles[i].SetupTile(tData, tiles[i].gameObject.AddComponent<SpriteRenderer>(), mapEditorCollider, _mapID, _chunkID, i);
+                tiles[i].SetupTile(tData, tiles[i].gameObject.AddComponent<SpriteRenderer>(), mapEditorCollider, mapName, _chunkID, i);
                 tiles[i].transform.parent = this.transform;
                 i++;
             }            
@@ -54,8 +54,9 @@ class Chunk : MonoBehaviour
 
     //Used by Map.cs when making chunk
     //Set and signal init
-    public void SetID(int _mapID, int _chunkID)
+    public void SetID(string mapName, int _chunkID)
     {
+        this.mapName = mapName;
         this._chunkID = _chunkID;
         startInit = true;
     }

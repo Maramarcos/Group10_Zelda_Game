@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
     private int _chunkID;
-    private int _mapID;
+    private string mapName;
     private int tileIndex;
     private TileInformation tileInfo;
     private SpriteRenderer spriteRenderer;
-    private Collider colliderRef;
+    private GameObject collision;
     private bool startInit = false;
     private bool postInit = false;
 
@@ -29,20 +30,44 @@ public class Tile : MonoBehaviour
     }
 
 
-    public void SetupTile(TileInformation tileInfo, SpriteRenderer spriteRenderer, Collider collider, int _mapID, int _chunkID, int tileIndex)
+    public void SetupTile(TileInformation tileInfo, SpriteRenderer spriteRenderer, Collider collider, string mapName, int _chunkID, int tileIndex)
     {
         this.tileInfo = tileInfo;
         this.spriteRenderer = spriteRenderer;
-        this.colliderRef = collider;
-        this._mapID = _mapID;
+        this.mapName = mapName;
         this._chunkID = _chunkID;
         this.tileIndex = tileIndex;
         this.spriteRenderer.sprite = spriteRenderer.sprite;
         //Debug.Log(tileInfo.GetCategory() + ", "+tileInfo.GetTileset() +", "+ tileInfo.GetIndex());
         this.spriteRenderer.sprite = World.tileSets[(int) tileInfo.GetCategory()][tileInfo.GetTileset()]
             .sprites[tileInfo.GetIndex()];
+        LoadCollision();
+    }
 
+    //For mapEditing.
+    private void OnMouseOver()
+    {
+        //Don't do anything if editing is disabled
+        if (!MapEditor.editingEnabled)
+        {
+            return;
+        }
+        //Change tile under mouse if left click is held and not on top of any UI elements
+        if(Input.GetMouseButton(0) && !MapEditor.mapEditor.mainPanelClickBlocker.IsMouseOver())
+        {
+            tileInfo = MapEditor.selectedTileType;
+            World.worldData.GetMap(mapName).GetChunk(_chunkID).SetTile(tileIndex, tileInfo);
+            spriteRenderer.sprite = World.tileSets[(int) tileInfo.GetCategory()][tileInfo.GetTileset()]
+                .sprites[tileInfo.GetIndex()];
+            DestroyImmediate(collision);
+            LoadCollision();
+        }
         
+
+    }
+
+    private void LoadCollision()
+    {
         //Load Collision
         GameObject go;   
         switch (tileInfo.GetCollisionType())
@@ -50,44 +75,38 @@ public class Tile : MonoBehaviour
             case TileCollisionEnum.square:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/SquareCollider"));
                 go.transform.parent = this.transform;
+                go.transform.localPosition = Vector3.zero;
+                collision = go;
                 return;
             case TileCollisionEnum.triangle0:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
                 go.transform.parent = this.transform;
                 go.transform.eulerAngles.Set(0,0,0);
+                go.transform.localPosition = Vector3.zero;
+                collision = go;
                 return;
             case TileCollisionEnum.triangle90:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
                 go.transform.parent = this.transform;
                 go.transform.Rotate(0,0,90);
+                go.transform.localPosition = Vector3.zero;
+                collision = go;
                 return;
             case TileCollisionEnum.triangle180:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
                 go.transform.parent = this.transform;
                 go.transform.Rotate(0,0,180);
+                go.transform.localPosition = Vector3.zero;
+                collision = go;
                 return;
             case TileCollisionEnum.triangle270:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
                 go.transform.parent = this.transform;
                 go.transform.Rotate(0,0,270);
+                go.transform.localPosition = Vector3.zero;
+                collision = go;
                 return;
         }
     }
-
-    //For mapEditing.
-    private void OnMouseOver()
-    {
-        //Change tile under mouse if left click is held and not on top of any UI elements
-        if(Input.GetMouseButton(0) && !MapEditor.mapEditor.mainPanelClickBlocker.IsMouseOver())
-        {
-            tileInfo = MapEditor.selectedTileType;
-            World.worldData.GetMap(_mapID).GetChunk(_chunkID).SetTile(tileIndex, tileInfo);
-            spriteRenderer.sprite = World.tileSets[(int) tileInfo.GetCategory()][tileInfo.GetTileset()]
-                .sprites[tileInfo.GetIndex()];
-        }
-        
-    }
-
-    
     
 }

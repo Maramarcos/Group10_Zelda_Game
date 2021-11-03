@@ -11,6 +11,7 @@ public enum PlayerState
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement player;
     public PlayerState currentState;
     public float speed;
     private Rigidbody2D myRigidbody;
@@ -26,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         animator.SetFloat("MoveX", 0);
         animator.SetFloat("MoveY", -1);
+        player = this;
 
     }
 
@@ -78,5 +80,15 @@ public class PlayerMovement : MonoBehaviour
     {
         change.Normalize();
         myRigidbody.MovePosition(transform.position + change * speed * Time.deltaTime);
+    }
+
+    public void WarpPlayer(string mapName, float x, float y)
+    {
+        if (mapName != World.activeMap)
+        {
+            World.SetActiveMap(mapName);
+        }
+
+        this.gameObject.transform.position = new Vector3(x, y, 0);
     }
 }

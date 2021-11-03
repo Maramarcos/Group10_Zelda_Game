@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,18 @@ public class MapEditor : MonoBehaviour
 
     public Dropdown tileSetDropdown;
     public Dropdown collisionDropdown;
+    public Canvas editingCanvas;
 
+    public InputField xChunks;
+    public InputField yChunks;
+
+    public bool toggleEditing;
+
+    public Dropdown currentMapDropdown;
+
+    public static bool editingEnabled = true; 
+    
+    
     public bool ForceSave = false; //Debug
 
     private List<GameObject> tileButtons; //For selecting current tile
@@ -29,9 +41,24 @@ public class MapEditor : MonoBehaviour
         System.IO.File.WriteAllText(Application.dataPath + "/" + "debugMapData" + ".json", tmp);
         Debug.Log("Wrote to: " + Application.dataPath + "/" + "debugMapData" + ".json");
     }
-    
+
+    public void ToggleEditing()
+    {
+        if (editingEnabled)
+        {
+            editingEnabled = false;
+            editingCanvas.enabled = false;            
+        }
+        else
+        {
+         
+            editingEnabled = true;
+            editingCanvas.enabled = true;   
+        }
+    }
     void Start()
     {
+        ToggleEditing(); //Turn off map editor by default
         /*
         //DEBUG
         List<TilesetCategoryData> tcData = new List<TilesetCategoryData>();
@@ -65,6 +92,12 @@ public class MapEditor : MonoBehaviour
         {
             ForceSave = false;
             SaveMap();
+        }
+
+        if (toggleEditing)
+        {
+            toggleEditing = false;
+            ToggleEditing();
         }
     }
 
@@ -176,6 +209,42 @@ public class MapEditor : MonoBehaviour
         System.IO.File.WriteAllText(Application.dataPath + "/" + "debugTilesetData" + ".json", tmp);
 
     }
-    
-    
+
+    public void CreateNewMap()
+    {
+        World.worldData.AddNewMap();
+        //Save Changes
+        string tmp = JsonUtility.ToJson(World.worldData);
+        System.IO.File.WriteAllText(Application.dataPath + "/" + "debugMapData" + ".json", tmp);
+        Debug.Log("Wrote to: " + Application.dataPath + "/" + "debugMapData" + ".json");
+        World.ReloadMapData();
+
+    }
+
+
+    public void ChangeMapSize()
+    {
+        int x;
+        int y;
+        if (int.TryParse(xChunks.text, out x) && int.TryParse(yChunks.text, out y))
+        {
+            World.worldData.ChangeMapDimension(currentMapDropdown.options[currentMapDropdown.value].text, x, y);
+        }
+    }
+
+    public void ReloadMapDropdown()
+    {
+        List<Dropdown.OptionData> opl = new List<Dropdown.OptionData>();     
+        //Iterate through each tileset in each category
+        for (int i = 0; i < World.worldData.MapCount; i++)
+        {
+            opl.Add(new Dropdown.OptionData(World.worldData.GetMaps()[i].name));
+        }
+        currentMapDropdown.options = opl;
+    }
+
+    public void ChangeMap()
+    {
+        World.SetActiveMap(currentMapDropdown.options[currentMapDropdown.value].text);
+    }
 }
