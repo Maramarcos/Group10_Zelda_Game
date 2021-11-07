@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: 8c721433e954cfa47af82c3901fa8c1f
+guid: d7f3e8804dc792543833f14f2a5a5afe
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -8180418680150933097
-    second: SNES - The Legend of Zelda A Link to the Past - Link_0
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -72,7 +69,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -91,26 +88,80 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SNES - The Legend of Zelda A Link to the Past - Link_0
+      name: GreenSold_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 665
-        height: 365
+        x: 157
+        y: 1157
+        width: 32
+        height: 29
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 79142a75d80597e80800000000000000
-      internalID: -8180418680150933097
+      spriteID: ae7d1cf710c54bb4780e66cb0f28de9f
+      internalID: -1401588368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreenSold_13
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 1118
+        width: 35
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49abf7a14f712bc45b6db71437282594
+      internalID: 1924072626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreenSold_14
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 1077
+        width: 32
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31673f04189266340838217831c5c5eb
+      internalID: 1070817781
       vertices: []
       indices: 
       edges: []
@@ -126,7 +177,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      SNES - The Legend of Zelda A Link to the Past - Link_0: -8180418680150933097
+      GreenSold_14: 1070817781
+      GreenSold_12: -1401588368
+      GreenSold_13: 1924072626
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
