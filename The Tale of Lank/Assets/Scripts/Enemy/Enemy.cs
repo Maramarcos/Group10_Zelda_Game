@@ -13,17 +13,34 @@ public class Enemy : MonoBehaviour
     {
 
     public EnemyState currentState;
-    public int health;
+    public FloatValue maxHealth;
+    public float health;
     public string name;
     public int baseAttack;
     public float moveSpeed;
 
-    public void Knock(Rigidbody2D myRigidbody, float knockTime)
+    private void Awake()
     {
-        StartCoroutine(KnockCo(myRigidbody, knockTime));
+        health = maxHealth.initialValue;
     }
 
-    private IEnumerator KnockCo(Rigidbody2D myRigidbody, float knockTime)
+    private void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
+    }
+
+    public void Knock(Rigidbody2D myRigidbody, float knockTime, float damage)
+    {
+        StartCoroutine(KnockCo(myRigidbody, knockTime, damage));
+        TakeDamage(damage);
+    }
+
+    
+    private IEnumerator KnockCo(Rigidbody2D myRigidbody, float knockTime, float damage)
     {
         if (myRigidbody != null)
         {
