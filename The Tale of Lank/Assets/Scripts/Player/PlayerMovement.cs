@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public enum PlayerState
@@ -124,6 +125,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             this.gameObject.SetActive(false);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1); //Back to Main Menu
         }
     }
 
