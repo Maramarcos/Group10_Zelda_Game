@@ -9,13 +9,14 @@ public enum EnemyState
     attack,
     stagger
 }
+
 public class Enemy : MonoBehaviour
-    {
+{
 
     public EnemyState currentState;
     public FloatValue maxHealth;
     public float health;
-    public string name;
+    public string enemyName;
     public int baseAttack;
     public float moveSpeed;
 
@@ -35,12 +36,11 @@ public class Enemy : MonoBehaviour
 
     public void Knock(Rigidbody2D myRigidbody, float knockTime, float damage)
     {
-        StartCoroutine(KnockCo(myRigidbody, knockTime, damage));
+        StartCoroutine(KnockCo(myRigidbody, knockTime));
         TakeDamage(damage);
     }
 
-    
-    private IEnumerator KnockCo(Rigidbody2D myRigidbody, float knockTime, float damage)
+    private IEnumerator KnockCo(Rigidbody2D myRigidbody, float knockTime)
     {
         if (myRigidbody != null)
         {
@@ -51,3 +51,4 @@ public class Enemy : MonoBehaviour
         }
     }
 }
+
