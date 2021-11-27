@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public FloatValue currentHealth;
     public Signal playerHealthSignal;
     public VectorValue startingPosition;
+    public GameObject projectile;
 
     // Use this for initialization
     void Start()
@@ -44,6 +45,11 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(AttackCo());
         }
+        else if (Input.GetButtonDown("Second Weapon") && currentState != PlayerState.attack
+           && currentState != PlayerState.stagger)
+        {
+            StartCoroutine(SecondAttackCo());
+        }
         else if (currentState == PlayerState.walk || currentState == PlayerState.idle)
         {
             UpdateAnimationAndMove();
@@ -60,6 +66,29 @@ public class PlayerMovement : MonoBehaviour
         currentState = PlayerState.walk;
     }
 
+    private IEnumerator SecondAttackCo()
+    {
+        //animator.SetBool("attacking", true); TODO: Bow animation?
+        currentState = PlayerState.attack;
+        yield return null;
+        MakeArrow();
+        //animator.SetBool("attacking", false);
+        yield return new WaitForSeconds(.3f);
+        currentState = PlayerState.walk;
+    }
+
+    private void MakeArrow()
+    {
+        Vector2 temp = new Vector2(animator.GetFloat("MoveX"), animator.GetFloat("MoveY"));
+        Arrow arrow = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Arrow>();
+        arrow.Setup(temp, ArrowDirection());
+    }
+
+    private Vector3 ArrowDirection()
+    {
+        float temp = Mathf.Atan2(animator.GetFloat("MoveY"), animator.GetFloat("MoveX")) * Mathf.Rad2Deg;
+        return new Vector3(0,0,temp);
+    }
     void UpdateAnimationAndMove()
     {
         if (change != Vector3.zero)
