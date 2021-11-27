@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   hitbox: {fileID: 2192413686075110440}
+  lifetime: 10
 --- !u!114 &4577335330912163551
 MonoBehaviour:
   m_ObjectHideFlags: 0
