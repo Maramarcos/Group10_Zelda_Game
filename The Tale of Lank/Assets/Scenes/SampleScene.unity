@@ -7276,7 +7276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  speed: 60
+  speed: 7
   currentHealth: {fileID: 11400000, guid: 23bf6fe3a950f8444a4d61fe1dabd6ea, type: 2}
   playerHealthSignal: {fileID: 11400000, guid: 99ba1aa5fbbcf284d8eb1111f9cfbe82, type: 2}
   startingPosition: {fileID: 11400000, guid: bae8d34b5d7dd9b40a29992cd0e97bb2, type: 2}
@@ -11999,11 +11999,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5797167498224892009, guid: d36975e89c4953d47ac633a24e99c33d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.617807
+      value: 47
       objectReference: {fileID: 0}
     - target: {fileID: 5797167498224892009, guid: d36975e89c4953d47ac633a24e99c33d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.1256027
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5797167498224892009, guid: d36975e89c4953d47ac633a24e99c33d, type: 3}
       propertyPath: m_LocalPosition.z
