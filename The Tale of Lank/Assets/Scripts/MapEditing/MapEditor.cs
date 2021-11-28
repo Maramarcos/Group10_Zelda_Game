@@ -10,8 +10,14 @@ public class MapEditor : MonoBehaviour
 {
     public static TileInformation selectedTileType;
     public static MapEditor mapEditor;
+    
     public Image selectedImage;
     public ClickThroughPreventer mainPanelClickBlocker;
+    public ClickThroughPreventer mapPanelClickBlocker;
+    public ClickThroughPreventer warpPanelClickBlocker;
+
+    public InputField newMapName;
+    
     public Transform tileSetScrollView;
 
     public Dropdown tileSetDropdown;
@@ -25,8 +31,10 @@ public class MapEditor : MonoBehaviour
 
     public Dropdown currentMapDropdown;
 
-    public static bool editingEnabled = true; 
-    
+    public static MapEditorMode editingMode = MapEditorMode.TileEditing;
+
+    private Warp selectedWarpObject;
+    private WarpData selectedWarpData;
     
     public bool ForceSave = false; //Debug
 
@@ -34,6 +42,24 @@ public class MapEditor : MonoBehaviour
 
     private Dictionary<int, Vector2Int> dropboxToTileSet; //Convert the dropbox values into usable data (category, and index) for loading.
 
+    public InputField warpXDestination;
+    public InputField warpYDestination;
+    public InputField warpMapDestination;
+    public Toggle warpEditingMode;
+    public Toggle tileEditingMode;
+
+
+
+    public bool IsMouseOverUI()
+    {
+        if (mainPanelClickBlocker.mouseOver || mapPanelClickBlocker.mouseOver || warpPanelClickBlocker.mouseOver)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
     //Called through button on UI
     public static void SaveMap()
     {
@@ -44,16 +70,15 @@ public class MapEditor : MonoBehaviour
 
     public void ToggleEditing()
     {
-        if (editingEnabled)
-        {
-            editingEnabled = false;
-            editingCanvas.enabled = false;            
+        if (editingMode != MapEditorMode.Disabled)
+        { 
+            editingMode = MapEditorMode.Disabled;
+            editingCanvas.enabled = false;
         }
         else
         {
-         
-            editingEnabled = true;
-            editingCanvas.enabled = true;   
+            editingMode = MapEditorMode.TileEditing;
+            editingCanvas.enabled = true;
         }
     }
     void Start()
@@ -83,6 +108,16 @@ public class MapEditor : MonoBehaviour
         //Load default tileset
         LoadTilePallet(Category.Exterior, 0);
         InitTileSetDropdownUI();
+    }
+
+    public void EnableTileMode()
+    {
+        editingMode = MapEditorMode.TileEditing;
+    }
+
+    public void EnableWarpMode()
+    {
+        editingMode = MapEditorMode.WarpEditing;
     }
 
     
@@ -247,4 +282,72 @@ public class MapEditor : MonoBehaviour
     {
         World.SetActiveMap(currentMapDropdown.options[currentMapDropdown.value].text);
     }
+
+    public void UpdateWarpModView(WarpData selectedWarpData, Warp selectedWarpObject)
+    {
+        this.selectedWarpData = selectedWarpData;
+        this.selectedWarpObject = selectedWarpObject;
+        UpdateWarpUI();
+    }
+
+    private void UpdateWarpUI()
+    {
+        warpXDestination.text = selectedWarpData.GetTargetLocation().x.ToString();
+        warpYDestination.text = selectedWarpData.GetTargetLocation().y.ToString();
+        warpMapDestination.text = selectedWarpData.GetTargetMap();
+    }
+
+    //Doesn't save to file. Only to instance
+    public void ApplyWarpChanges()
+    {
+        int x;
+        int y;
+        if (int.TryParse(warpXDestination.text, out x) && int.TryParse(warpYDestination.text, out y))
+        {
+            selectedWarpData = new WarpData(new Vector2(x, y), warpMapDestination.text);
+        }
+        selectedWarpObject.ApplyChanges(selectedWarpData);
+        
+    }
+
+    public void DeleteMap()
+    {
+        string deleteTarget = currentMapDropdown.options[currentMapDropdown.value].text;
+        
+        World.worldData.DeleteMap(deleteTarget);
+        
+        //Save Changes
+        string tmp = JsonUtility.ToJson(World.worldData);
+        System.IO.File.WriteAllText(Application.dataPath + "/" + "debugMapData" + ".json", tmp);
+        Debug.Log("Wrote to: " + Application.dataPath + "/" + "debugMapData" + ".json");
+        World.ReloadMapData();
+    }
+
+    public void ChangeMapName()
+    {
+        World.worldData.RenameMap(currentMapDropdown.options[currentMapDropdown.value].text, newMapName.text);
+    }
+
+    public void ToggleTileGrid()
+    {
+        World.ToggleTileGrid();
+
+    }
+
+    public void ToggleChunkGrid()
+    {
+        World.ToggleChunkGrid();
+    }
+    
+}
+
+public enum MapEditorMode
+{
+    Disabled,
+    TileEditing,
+    WarpEditing,
+    EnemyEditing,
+    ItemEditing
+
+
 }

@@ -48,20 +48,20 @@ public class Tile : MonoBehaviour
     private void OnMouseOver()
     {
         //Don't do anything if editing is disabled
-        if (!MapEditor.editingEnabled)
+        if (MapEditor.editingMode == MapEditorMode.TileEditing && !MapEditor.mapEditor.IsMouseOverUI())
         {
-            return;
+            //Change tile under mouse if left click is held and not on top of any UI elements
+            if(Input.GetMouseButton(0))
+            {
+                tileInfo = MapEditor.selectedTileType;
+                World.worldData.GetMap(mapName).GetChunk(_chunkID).SetTile(tileIndex, tileInfo);
+                spriteRenderer.sprite = World.tileSets[(int) tileInfo.GetCategory()][tileInfo.GetTileset()]
+                    .sprites[tileInfo.GetIndex()];
+                DestroyImmediate(collision);
+                LoadCollision();
+            }
         }
-        //Change tile under mouse if left click is held and not on top of any UI elements
-        if(Input.GetMouseButton(0) && !MapEditor.mapEditor.mainPanelClickBlocker.IsMouseOver())
-        {
-            tileInfo = MapEditor.selectedTileType;
-            World.worldData.GetMap(mapName).GetChunk(_chunkID).SetTile(tileIndex, tileInfo);
-            spriteRenderer.sprite = World.tileSets[(int) tileInfo.GetCategory()][tileInfo.GetTileset()]
-                .sprites[tileInfo.GetIndex()];
-            DestroyImmediate(collision);
-            LoadCollision();
-        }
+        
         
 
     }

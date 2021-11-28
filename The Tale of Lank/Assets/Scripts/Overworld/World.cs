@@ -19,7 +19,21 @@ public class World : MonoBehaviour
 
     public static string activeMap;
 
+    public static void ToggleTileGrid()
+    {
+        for(int i = 0; i < maps.Length; i++)
+        {
+            maps[i].ToggleTileGrid();
+        }
+    }
 
+    public static void ToggleChunkGrid()
+    {
+        for (int i = 0; i < maps.Length; i++)
+        {
+            maps[i].ToggleChunkGrid();
+        }
+    }
     public static void SetActiveMap(string mapName)
     {
         for (int i = 0; i < maps.Length; i++)
@@ -100,7 +114,7 @@ public class World : MonoBehaviour
             i++;
         }
 
-
+        
 
 
 

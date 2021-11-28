@@ -11,7 +11,7 @@ using Random = System.Random;
 //Documentation in readme.md in Overworld Folder
 
 [Serializable]
-public struct WorldData
+public class WorldData
 {
     [SerializeField]
     private MapData[] maps;
@@ -29,7 +29,7 @@ public struct WorldData
         throw new Exception("Requested map '" + mapName + "' does not exist.");
     }
 
-    public readonly MapData[] GetMaps()
+    public MapData[] GetMaps()
     {
         return maps;
     }
@@ -53,10 +53,8 @@ public struct WorldData
     {
         for (int i = 0; i < maps.Length; i++)
         {
-            Debug.Log(maps[i].name + " VS" + mapName);
             if (maps[i].name == mapName)
             {
-                Debug.Log("Found!");
                 maps[i].ChangeChunkSize(x, y);
             }
         }
@@ -94,10 +92,57 @@ public struct WorldData
         maps = tmpMaps;
 
     }
+
+    public void DeleteMap(string mapName)
+    {
+        //Find index of map
+        int mapIndex = -1;
+        
+        for (int i = 0; i < maps.Length; i++)
+        {
+            if (maps[i].name == mapName)
+            {
+                mapIndex = i;
+                break;
+            }
+        }
+
+        if (mapIndex == -1)
+        {
+            throw new Exception("Error: Map '" + mapName + "'doesn't exist!");
+            return;
+        }
+        
+        //Shift left all slots over to delete targeted map
+        for (int i = mapIndex; i < maps.Length-1; i++)
+        {
+            maps[i] = maps[i + 1];
+        }
+        
+        //Shrinkened array & swip
+        MapData[] tmpMaps = new MapData[maps.Length - 1];
+        for (int i = 0; i < tmpMaps.Length; i++)
+        {
+            tmpMaps[i] = maps[i];
+        }
+        maps = tmpMaps;
+    }
+
+    public void RenameMap(string curMapName, string newMapName)
+    {
+        for (int i = 0; i < maps.Length; i++)
+        {
+            if (maps[i].name == curMapName)
+            {
+                maps[i].SetName(newMapName);
+                break;
+            }
+        }
+    }
 }
 
 [Serializable]
-public struct MapData
+public class MapData
 {
     [SerializeField]
     private Flat2DArray<ChunkData> chunks;
@@ -123,9 +168,14 @@ public struct MapData
         throw new Exception("Error: Invalid _chunkID requested.");
     }
 
-    public readonly Flat2DArray<ChunkData> GetChunks()
+    public Flat2DArray<ChunkData> GetChunks()
     {
         return chunks;
+    }
+
+    public void SetName(string newName)
+    {
+        mapName = newName;
     }
 
     [SerializeField]
@@ -163,7 +213,7 @@ public struct MapData
         for (int i = 0; i < tmpArray.GetFlatLength(); i++)
         {
             tmpArray[i] = new ChunkData(new Flat2DArray<TileInformation>(ChunkData.tileWidth, ChunkData.tileHeight), i,
-                "DebugChunk:" + i);
+                "DebugChunk:" + i, new Flat2DArray<WarpData>(ChunkData.tileWidth, ChunkData.tileHeight));
         }
 
         //Copy over old array where possible
@@ -187,16 +237,19 @@ public struct MapData
 }
 
 [Serializable]
-public struct ChunkData
+public class ChunkData
 {
     //Amount of tiles per chunk
     [NonSerialized]
-    public readonly static int tileWidth = 16;
+    public static readonly int tileWidth = 16;
     [NonSerialized]
-    public readonly static int tileHeight = 11;
+    public static readonly int tileHeight = 11;
 
     [SerializeField]
     private Flat2DArray<TileInformation> tiles;
+
+    [SerializeField]
+    private Flat2DArray<WarpData> warps;
 
 
     [SerializeField]
@@ -208,6 +261,15 @@ public struct ChunkData
         {
             return _chunkID;
         }
+    }
+
+    public void SetWarp(int warpIndex, WarpData warpData)
+    {
+        if (warpIndex >= warps.GetFlatLength())
+        {
+            warps = new Flat2DArray<WarpData>(tileWidth, tileHeight);
+        }
+        warps[warpIndex] = warpData;
     }
 
     public TileInformation GetTile(int tileIndex)
@@ -231,16 +293,33 @@ public struct ChunkData
         }
     }
 
-    public readonly Flat2DArray<TileInformation> GetTiles()
+    public Flat2DArray<TileInformation> GetTiles()
     {
         return tiles;
     }
+
+    public Flat2DArray<WarpData> GetWarps()
+    {
+        return warps;
+    }
+
+    //Hold over from old map format
+    public void ResetWarps()
+    {
+        warps = new Flat2DArray<WarpData>(tileWidth,tileHeight);
+        for (int i = 0; i < warps.GetFlatLength(); i++)
+        {
+            warps[i] = new WarpData(new Vector2(0,0), "null");
+        }
+    }
+
     
     //DebugOnly Constructor
-    public ChunkData(Flat2DArray<TileInformation> tiles, int _chunkID, string chunkName)
+    public ChunkData(Flat2DArray<TileInformation> tiles, int _chunkID, string chunkName, Flat2DArray<WarpData> warps)
     {
         this._chunkID = _chunkID;
         this.tiles = tiles;
         this.chunkName = chunkName;
+        this.warps = warps;
     }
 }
