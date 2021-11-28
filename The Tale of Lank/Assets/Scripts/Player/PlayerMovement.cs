@@ -14,6 +14,7 @@ public enum PlayerState
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement player;
     public PlayerState currentState;
     public float speed;
     private Rigidbody2D myRigidbody;
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        player = this;
         currentState = PlayerState.walk;
         animator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -139,4 +141,14 @@ public class PlayerMovement : MonoBehaviour
             myRigidbody.velocity = Vector2.zero;
         }
     }
+    public void WarpPlayer(string mapName, float x, float y)
+    {
+        if (mapName != World.activeMap)
+        {
+            World.SetActiveMap(mapName);
+        }
+
+        this.gameObject.transform.position = new Vector3(x, y, 0);
+    }
+
 }
