@@ -131,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
         {
             this.gameObject.SetActive(false);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1); //Back to Main Menu
+            currentHealth.RuntimeValue = currentHealth.initialValue;
         }
     }
 
