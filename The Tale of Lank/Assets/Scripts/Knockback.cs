@@ -16,6 +16,11 @@ public class Knockback : MonoBehaviour
         {
             other.GetComponent<Sign>().ShowText();
         }
+
+        if (other.gameObject.CompareTag("Switch"))
+        {
+            other.GetComponent<Switch>().Toggle();
+        }
         
         if (other.gameObject.CompareTag("Breakable") && this.gameObject.CompareTag("Player"))
         {

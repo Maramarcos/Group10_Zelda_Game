@@ -19,6 +19,20 @@ public class World : MonoBehaviour
 
     public static string activeMap;
 
+    public static Map GetMapByName(string mapName)
+    {
+        for (int i = 0; i < maps.Length; i++)
+        {
+            if (maps[i].name == mapName)
+            {
+                return maps[i];
+            }
+        }
+
+        return null;
+    }
+    
+
     public static void ToggleTileGrid()
     {
         for(int i = 0; i < maps.Length; i++)

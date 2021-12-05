@@ -23,6 +23,7 @@ public class Sign : MonoBehaviour
         if (World.activeMap != targetWorld)
         {
             collision.enabled = false;
+
         }
         else
         {

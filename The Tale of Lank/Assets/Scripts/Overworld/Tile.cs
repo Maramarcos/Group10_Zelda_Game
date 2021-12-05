@@ -126,5 +126,72 @@ public class Tile : MonoBehaviour
             collision = go;
         }
     }
+
+    public void UnsavedTileChange(TileInformation tmpTileInfo)
+    {
+        this.spriteRenderer.sprite = World.tileSets[(int) tmpTileInfo.GetCategory()][tmpTileInfo.GetTileset()]
+            .sprites[tmpTileInfo.GetIndex()];
+        
+        
+
+        //Load new Collision
+        Destroy(collision);
+        GameObject go = null;   
+        switch (tmpTileInfo.GetCollisionType())
+        {
+            case TileCollisionEnum.square:
+                go = (GameObject)Instantiate(Resources.Load("Prefabs/SquareCollider"));
+                go.transform.parent = this.transform;
+                go.transform.localPosition = Vector3.zero;
+                break;
+            case TileCollisionEnum.triangle0:
+                go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
+                go.transform.parent = this.transform;
+                go.transform.eulerAngles.Set(0,0,0);
+                go.transform.localPosition = Vector3.zero;
+                break;
+            case TileCollisionEnum.triangle90:
+                go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
+                go.transform.parent = this.transform;
+                go.transform.Rotate(0,0,90);
+                go.transform.localPosition = Vector3.zero;
+                break;
+            case TileCollisionEnum.triangle180:
+                go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
+                go.transform.parent = this.transform;
+                go.transform.Rotate(0,0,180);
+                go.transform.localPosition = Vector3.zero;
+                break;
+            case TileCollisionEnum.triangle270:
+                go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
+                go.transform.parent = this.transform;
+                go.transform.Rotate(0,0,270);
+                go.transform.localPosition = Vector3.zero;
+                break;
+            case TileCollisionEnum.water:
+                go = (GameObject)Instantiate(Resources.Load("Prefabs/SquareCollider"));
+                go.transform.parent = this.transform;
+                go.transform.localPosition = Vector3.zero;
+                break;
+            case TileCollisionEnum.allowArrow:
+                go = (GameObject)Instantiate(Resources.Load("Prefabs/SquareCollider"));
+                go.transform.parent = this.transform;
+                go.transform.localPosition = Vector3.zero;
+                break;
+        }
+
+        if (go != null)
+        {
+            if (tmpTileInfo.GetCollisionType() == TileCollisionEnum.water)
+            {
+                go.tag = "Water";                
+            }
+            else if (tmpTileInfo.GetCollisionType() == TileCollisionEnum.allowArrow)
+            {
+                go.tag = "AllowArrow";
+            }
+            collision = go;
+        }
+    }
     
 }

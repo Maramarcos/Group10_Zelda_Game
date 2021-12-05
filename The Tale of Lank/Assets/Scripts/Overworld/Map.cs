@@ -150,4 +150,17 @@ public class Map : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    public Chunk GetChunkByName(string chunkName)
+    {
+        for (int i = 0; i < chunks.Length; i++)
+        {
+            if (chunks[i].name == chunkName)
+            {
+                return chunks[i];
+            }
+        }
+
+        return null;
+    }
+
 }

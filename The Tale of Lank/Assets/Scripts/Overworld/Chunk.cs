@@ -139,4 +139,19 @@ public class Chunk : MonoBehaviour
         this._chunkID = _chunkID;
         startInit = true;
     }
+
+    public Tile GetTileByCoord(Vector2Int coord)
+    {
+        Debug.Log("Called GetTileByCoord()");
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            Vector2Int cCoord = new Vector2Int((int)tiles[i].transform.localPosition.x, (int)tiles[i].transform.localPosition.y);
+            if (cCoord == coord)
+            {
+                return tiles[i];
+            }
+        }
+
+        return null;
+    }
 }
