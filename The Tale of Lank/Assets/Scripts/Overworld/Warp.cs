@@ -12,7 +12,6 @@ public class Warp : MonoBehaviour
     
     private int _chunkID;
     private string mapName;
-    private int warpIndex;
     
     private GameObject collision;
 
@@ -22,7 +21,6 @@ public class Warp : MonoBehaviour
         this.warpData = warpData;
         this._chunkID = _chunkID;
         this.mapName = mapName;
-        this.warpIndex = warpIndex;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -36,9 +34,11 @@ public class Warp : MonoBehaviour
     
     private void OnMouseUpAsButton()
     {
+        Debug.Log("Called");
         //Only do work if in warp editing mode
         if (MapEditor.editingMode == MapEditorMode.WarpEditing && !MapEditor.mapEditor.IsMouseOverUI())
         {
+            Debug.Log("If called!");
             //Set the selected warp data in map editor to current warp
             MapEditor.mapEditor.UpdateWarpModView(warpData, this);
         }
@@ -48,7 +48,7 @@ public class Warp : MonoBehaviour
     public void ApplyChanges(WarpData warpData)
     {
         this.warpData = warpData;
-        World.worldData.GetMap(mapName).GetChunk(_chunkID).SetWarp(warpIndex, warpData);
+        World.worldData.GetMap(mapName).GetChunk(_chunkID).SetWarp(new Vector2Int((int)this.transform.localPosition.x, (int)this.transform.localPosition.y), warpData); //Will always be a int
 
     }
 }

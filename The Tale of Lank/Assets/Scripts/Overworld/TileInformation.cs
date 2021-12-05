@@ -68,5 +68,6 @@ public enum TileCollisionEnum
     triangle180,
     triangle270,
     square,
-    water
+    water,
+    allowArrow
 }

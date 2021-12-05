@@ -31,6 +31,8 @@ public class MapEditor : MonoBehaviour
 
     public Dropdown currentMapDropdown;
 
+    public GameObject selectedWarpIndicator;
+
     public static MapEditorMode editingMode = MapEditorMode.TileEditing;
 
     private Warp selectedWarpObject;
@@ -287,6 +289,7 @@ public class MapEditor : MonoBehaviour
     {
         this.selectedWarpData = selectedWarpData;
         this.selectedWarpObject = selectedWarpObject;
+        this.selectedWarpIndicator.transform.position = selectedWarpObject.transform.position;
         UpdateWarpUI();
     }
 

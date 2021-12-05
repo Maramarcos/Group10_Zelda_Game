@@ -36,6 +36,7 @@ public class World : MonoBehaviour
     }
     public static void SetActiveMap(string mapName)
     {
+        PlayerMovement.player.ForceStopInput();
         for (int i = 0; i < maps.Length; i++)
         {
             if (maps[i].name == mapName)
@@ -51,8 +52,10 @@ public class World : MonoBehaviour
 
         if (mapName != activeMap)
         {
+            PlayerMovement.player.ForceStartInput();
             throw new Exception("Map Name: '" + mapName + "' does not exist. Couldn't load new map");
         }
+        PlayerMovement.player.ForceStartInput();
     }
     
     public static void ReloadMapData()

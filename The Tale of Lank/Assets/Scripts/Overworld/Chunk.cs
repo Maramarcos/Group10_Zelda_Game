@@ -60,6 +60,7 @@ public class Chunk : MonoBehaviour
                 
                 //TODO: I don't thiunk that this is used anymore
                 BoxCollider mapEditorCollider = tiles[i].gameObject.AddComponent<BoxCollider>();
+                tiles[i].tag = "EditorCollider";
                 mapEditorCollider.isTrigger = true;
                 
     
@@ -85,6 +86,7 @@ public class Chunk : MonoBehaviour
             //Load Warps
             if (World.worldData.GetMap(mapName).GetChunk(_chunkID).GetWarps() != null)
             {
+                
                 try
                 {
                     warps = new Warp[World.worldData.GetMap(mapName).GetChunk(_chunkID).GetWarps().GetFlatLength()];
@@ -105,13 +107,14 @@ public class Chunk : MonoBehaviour
                     for (int y = 0; y < wDatas.GetLength(1); y++)
                     {
                         GameObject go = new GameObject();
-                        go.transform.position = new Vector3(y, x, 0);
-                        go.name = "Warp: ("+ x + ", " + y + ")";
                         go.transform.parent = this.transform;
+                        go.transform.localPosition = new Vector3(y, x);
+                        go.name = "Warp: ("+ x + ", " + y + ")";
                         Warp warp = go.AddComponent<Warp>();
                         BoxCollider2D mapEditorCollider = go.AddComponent<BoxCollider2D>();
+                        warp.tag = "EditorCollider";
                         mapEditorCollider.isTrigger = true;
-                        warp.InitWarpData(wDatas[x,y], mapName, _chunkID, i);
+                        warp.InitWarpData(wDatas[y,x], mapName, _chunkID, i);
                         warps[i] = warp;
                         i++;
                     }

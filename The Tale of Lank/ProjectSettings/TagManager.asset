@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy
   - Breakable
+  - EditorCollider
+  - Water
+  - AllowArrow
+  - Sign
   layers:
   - Default
   - TransparentFX

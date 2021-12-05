@@ -69,43 +69,61 @@ public class Tile : MonoBehaviour
     private void LoadCollision()
     {
         //Load Collision
-        GameObject go;   
+        GameObject go = null;   
         switch (tileInfo.GetCollisionType())
         {
             case TileCollisionEnum.square:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/SquareCollider"));
                 go.transform.parent = this.transform;
                 go.transform.localPosition = Vector3.zero;
-                collision = go;
-                return;
+                break;
             case TileCollisionEnum.triangle0:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
                 go.transform.parent = this.transform;
                 go.transform.eulerAngles.Set(0,0,0);
                 go.transform.localPosition = Vector3.zero;
-                collision = go;
-                return;
+                break;
             case TileCollisionEnum.triangle90:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
                 go.transform.parent = this.transform;
                 go.transform.Rotate(0,0,90);
                 go.transform.localPosition = Vector3.zero;
-                collision = go;
-                return;
+                break;
             case TileCollisionEnum.triangle180:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
                 go.transform.parent = this.transform;
                 go.transform.Rotate(0,0,180);
                 go.transform.localPosition = Vector3.zero;
-                collision = go;
-                return;
+                break;
             case TileCollisionEnum.triangle270:
                 go = (GameObject)Instantiate(Resources.Load("Prefabs/TriangleCollider"));
                 go.transform.parent = this.transform;
                 go.transform.Rotate(0,0,270);
                 go.transform.localPosition = Vector3.zero;
-                collision = go;
-                return;
+                break;
+            case TileCollisionEnum.water:
+                go = (GameObject)Instantiate(Resources.Load("Prefabs/SquareCollider"));
+                go.transform.parent = this.transform;
+                go.transform.localPosition = Vector3.zero;
+                break;
+            case TileCollisionEnum.allowArrow:
+                go = (GameObject)Instantiate(Resources.Load("Prefabs/SquareCollider"));
+                go.transform.parent = this.transform;
+                go.transform.localPosition = Vector3.zero;
+                break;
+        }
+
+        if (go != null)
+        {
+            if (tileInfo.GetCollisionType() == TileCollisionEnum.water)
+            {
+                go.tag = "Water";                
+            }
+            else if (tileInfo.GetCollisionType() == TileCollisionEnum.allowArrow)
+            {
+                go.tag = "AllowArrow";
+            }
+            collision = go;
         }
     }
     

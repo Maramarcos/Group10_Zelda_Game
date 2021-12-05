@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -10772,9 +10772,9 @@ TextureImporter:
       Interior22_244: 1709061368
       Interior22_49: 659103569
       Interior22_164: -1643376442
-      Interior22_270: 735011502
       Interior22_322: -1721712167
       Interior22_405: -894537067
+      Interior22_270: 735011502
       Interior22_25: 938012931
       Interior22_346: -179051214
       Interior22_360: -1053558647
@@ -10845,13 +10845,13 @@ TextureImporter:
       Interior22_455: -1628056505
       Interior22_122: -1839173886
       Interior22_453: 156674826
-      Interior22_190: -1844191552
-      Interior22_96: 2141857552
       Interior22_493: -193838306
+      Interior22_96: 2141857552
       Interior22_193: -174945957
       Interior22_203: 21996912
-      Interior22_347: 540959022
+      Interior22_190: -1844191552
       Interior22_368: -1069328697
+      Interior22_347: 540959022
       Interior22_300: 451539383
       Interior22_51: -1992961080
       Interior22_362: -2128655873
@@ -10866,8 +10866,8 @@ TextureImporter:
       Interior22_171: 1261868625
       Interior22_125: 228701231
       Interior22_80: -741639724
-      Interior22_316: 1096046668
       Interior22_491: 1623386709
+      Interior22_316: 1096046668
       Interior22_365: 598445946
       Interior22_70: -46945551
       Interior22_243: 204965142
@@ -10964,10 +10964,10 @@ TextureImporter:
       Interior22_130: -1591369806
       Interior22_201: 901538839
       Interior22_390: 1464149715
-      Interior22_89: 993646307
       Interior22_423: 1458583422
-      Interior22_361: 825598611
+      Interior22_89: 993646307
       Interior22_437: 2110661742
+      Interior22_361: 825598611
       Interior22_488: -1094233445
       Interior22_395: 224273624
       Interior22_309: -37465394

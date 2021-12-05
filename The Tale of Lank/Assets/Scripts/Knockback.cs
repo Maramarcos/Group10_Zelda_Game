@@ -11,6 +11,12 @@ public class Knockback : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+       
+        if (other.gameObject.CompareTag("Sign"))
+        {
+            other.GetComponent<Sign>().ShowText();
+        }
+        
         if (other.gameObject.CompareTag("Breakable") && this.gameObject.CompareTag("Player"))
         {
             other.GetComponent<pot>().Smash();

@@ -263,13 +263,13 @@ public class ChunkData
         }
     }
 
-    public void SetWarp(int warpIndex, WarpData warpData)
+    public void SetWarp(Vector2Int warpIndex, WarpData warpData)
     {
-        if (warpIndex >= warps.GetFlatLength())
+        if (warpIndex.x >= warps.GetLength(0) || warpIndex.x >= warps.GetLength(1))
         {
             warps = new Flat2DArray<WarpData>(tileWidth, tileHeight);
         }
-        warps[warpIndex] = warpData;
+        warps[warpIndex.x, warpIndex.y] = warpData;
     }
 
     public TileInformation GetTile(int tileIndex)

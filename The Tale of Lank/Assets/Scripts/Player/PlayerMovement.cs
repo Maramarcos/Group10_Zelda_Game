@@ -24,10 +24,14 @@ public class PlayerMovement : MonoBehaviour
     public Signal playerHealthSignal;
     public VectorValue startingPosition;
     public GameObject projectile;
+    private bool canMove;
+
+    private int arrowFrames = 0;
 
     // Use this for initialization
     void Start()
     {
+        canMove = true;
         player = this;
         currentState = PlayerState.walk;
         animator = GetComponent<Animator>();
@@ -41,8 +45,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        
+        //Skip input if player isn't allowed to move
+        if (canMove == false)
+        {
+            return;
+        }
+
         change = Vector3.zero;
         change.x = Input.GetAxisRaw("Horizontal");
         change.y = Input.GetAxisRaw("Vertical");
@@ -55,11 +66,14 @@ public class PlayerMovement : MonoBehaviour
            && currentState != PlayerState.stagger)
         {
             StartCoroutine(SecondAttackCo());
+
+            
         }
         else if (currentState == PlayerState.walk || currentState == PlayerState.idle)
         {
             UpdateAnimationAndMove();
         }
+        arrowFrames += 1;
     }
 
     private IEnumerator AttackCo()
@@ -75,8 +89,8 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator SecondAttackCo()
     {
         //animator.SetBool("attacking", true); TODO: Bow animation?
-        currentState = PlayerState.attack;
         yield return null;
+        currentState = PlayerState.attack;
         MakeArrow();
         //animator.SetBool("attacking", false);
         yield return new WaitForSeconds(.3f);
@@ -155,4 +169,14 @@ public class PlayerMovement : MonoBehaviour
         this.gameObject.transform.position = new Vector3(x, y, 0);
     }
 
+    //Small interval when teleporting to new map where player can walk through collision that isn't yet loaded.
+    public void ForceStopInput()
+    {
+        canMove = false;
+    }
+
+    public void ForceStartInput()
+    {
+        canMove = true;
+    }
 }
