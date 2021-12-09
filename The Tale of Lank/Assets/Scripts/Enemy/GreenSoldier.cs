@@ -11,6 +11,12 @@ public class GreenSoldier : Enemy
     public Transform homePosition;
     public Animator anim;
 
+    public SpriteRenderer spriteRenderer;
+    public BoxCollider2D collider2D;
+    public BoxCollider2D dmgCollider2D;
+    public Rigidbody2D rb2D;
+    public string targetMap;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +26,24 @@ public class GreenSoldier : Enemy
         target = GameObject.FindWithTag("Player").transform;
     }
 
+    void Update()
+    {
+        if (World.activeMap != targetMap)
+        {
+            collider2D.enabled = false;
+            rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            spriteRenderer.enabled = false;
+            dmgCollider2D.enabled = false;
+        }
+        else
+        {
+            collider2D.enabled = true;
+            rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+            spriteRenderer.enabled = true;
+            dmgCollider2D.enabled = true;
+        }
+    }
+    
     // Update is called once per frame
     void FixedUpdate()
     {

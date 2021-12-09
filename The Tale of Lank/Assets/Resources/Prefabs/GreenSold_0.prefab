@@ -180,6 +180,11 @@ MonoBehaviour:
   attackRadius: 1.2
   homePosition: {fileID: 0}
   anim: {fileID: 5797167498224892006}
+  spriteRenderer: {fileID: 5797167498224892008}
+  collider2D: {fileID: 5797167498224892007}
+  dmgCollider2D: {fileID: 5797167498224892002}
+  rb2D: {fileID: 5797167498224892004}
+  targetMap: Overworld
 --- !u!61 &5797167498224892002
 BoxCollider2D:
   m_ObjectHideFlags: 0
