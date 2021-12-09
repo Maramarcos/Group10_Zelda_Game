@@ -30,6 +30,8 @@ public class Enemy : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            GameObject heart = (GameObject)Instantiate(Resources.Load("Prefabs/DroppedHeart"));
+            heart.transform.position = this.transform.position;
             this.gameObject.SetActive(false);
         }
     }
